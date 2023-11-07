@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <script src="grid.js" defer></script>
+    <script src="listGraph.js" defer></script>
+    <label for="gridSize">Size:</label>
+    <input type="number" id="gridSize" />
+    <button onclick="generateGrid()">Generate Grid</button>
+    <input type="checkbox" id="placeStartingButton" />
+    <label for="placeStartingButton">Place Starting Button</label>
+    <input type="checkbox" id="placeGoalButton" />
+    <label for="placeGoalButton">Place Goal Button</label>
+    <button onclick="clearGrid()">Clear Grid</button>
+    <button onclick="reset()">Reset</button>
+    <button onclick="solveWithAstar()">Solve With A*</button>
+    <button onclick="solveWithDijkstra()">Solve With Dijkstra</button>
+    <div id="searchCounter">Nodes Searched: 0</div>
+    <div id="nodesInPath">Nodes In Path: 0</div>
+    <div id="pathLength">Path Length: 0</div>
+    <div class="output">
+      <div class="grid" id="grid" style="--n: 10;"></div>
+    </div>
+  </body>
+</html>

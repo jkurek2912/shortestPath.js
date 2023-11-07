@@ -1,0 +1,35 @@
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--n, 5), 1fr);
+  grid-auto-rows: 1fr; /* Set the row height to 1fr to make cells square */
+  gap: 0px;
+  column-gap: 0;
+}
+
+body {
+  background-color: white;
+  font-size: 1rem;
+}
+.cell {
+  width: 15px; /* Adjust the size of the cells as needed */
+  height: 15px;
+  background-color: '#ccc';
+  border: 0.5px solid black;
+}
+.output {
+    cursor: pointer;
+    grid-column: 1/-1;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 20px;
+}
+.starting-button {
+    background-color: green;
+}
+.goal-button {
+    background-color: red;
+}
+
+
