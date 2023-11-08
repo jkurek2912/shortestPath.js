@@ -250,7 +250,7 @@ async function findPath(lg, dijkstra) {
     if (path[i] !== start && path[i] !== goal) {
       buttons[path[i]].style.backgroundColor = "orange";
       if (!inst) {
-        await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+        await new Promise((resolve) => setTimeout(resolve, animationSpeed + 60));
       }
       buttons[path[i]].style.backgroundColor = "blue";
     }

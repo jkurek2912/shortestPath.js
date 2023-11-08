@@ -12,15 +12,21 @@
     <label for="percentage">Fill Percent:</label>
     <input type="number" id="percent" />
     <button onclick="generateGrid()">Generate Grid</button>
+  </div>
+  <div>
     <input type="checkbox" id="placeStartingButton" />
     <label for="placeStartingButton">Place Starting Node</label>
     <input type="checkbox" id="placeGoalButton" />
     <label for="placeGoalButton">Place Goal Node</label>
   </div>
+  <div>
     <button onclick="clearGrid()">Clear Grid</button>
     <button onclick="reset()">Reset</button>
+  </div>
+  <div>
     <button onclick="solveWithAstar()">Find with A*</button>
     <button onclick="solveWithDijkstra()">Find with Dijkstra</button>
+  </div>
     <label for="animationSpeedSlider">Animation Speed</label>
     <input type="range" id="animationSpeedSlider" min="0" max="200" value="5">
     <button onclick="instant()" id="instantButton">Instant</button>
