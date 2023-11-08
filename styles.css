@@ -5,6 +5,11 @@
   gap: 0px;
   column-gap: 0;
 }
+
+#animationSpeedSlider {
+  width: 150px;
+}
+
 body {
   background-color: rgba(117, 117, 117, 0.274);
   font-size: 1rem;

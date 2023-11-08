@@ -13,9 +13,25 @@ let percent = 0;
 let dijkstra = false;
 
 
+
 function generateGrid() {
   clearGrid();
+  percent = 0;
   gridSize = parseInt(document.getElementById("gridSize").value); // Update gridSize
+  percent = parseInt(document.getElementById("percent").value); // Update percent
+  if (percent < 0 || percent > 100) {
+    alert("Please enter a percentage between 0 and 100!");
+    return;
+  }
+  if (gridSize > 120) {
+    gridSize = 0;
+    alert("Large grid sizes could cause crashes. Please choose a grid size under");
+    return;
+  }
+  if (gridSize < 1) {
+    alert("Please enter a size greater than 0!");
+    return;
+  }
   const grid = document.getElementById("grid");
   grid.style.setProperty("--n", gridSize); // Set the number of columns
   // Clear any existing grid
@@ -103,6 +119,13 @@ function generateGrid() {
           }
         }
       });
+      if (!isNaN(percent)) {
+        let ran = Math.floor(Math.random() * 100);
+        if (ran < percent) {
+          cell.style.backgroundColor = "black";
+          gridState[row][col] = 1;
+        }
+      }
       buttons.push(cell);
       grid.appendChild(cell);
 
@@ -111,8 +134,7 @@ function generateGrid() {
 }
 
 function clearGrid() {
-  resetLabels();
-  heap = [];
+  resetDataStructures();
   const buttons = document.querySelectorAll(".cell");
   buttons.forEach((button) => {
     button.style.backgroundColor = "#ccc";
@@ -126,8 +148,7 @@ function clearGrid() {
 }
 
 function reset() {
-  resetLabels();
-  heap = [];
+  resetDataStructures();
   const buttons = document.querySelectorAll(".cell");
   buttons.forEach((button) => {
     if (!(button.style.backgroundColor == "black" || button.style.backgroundColor == 'green' || button.style.backgroundColor == 'red')) {
@@ -137,7 +158,10 @@ function reset() {
   buttons[start].style.backgroundColor = 'green';
   buttons[goal].style.backgroundColor = 'red';
 }
-
+function resetDataStructures() {
+  resetLabels();
+  heap = [];
+}
 function percentage() {
   generateGrid(true);
 }

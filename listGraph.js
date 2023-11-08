@@ -13,6 +13,7 @@ let rainbow = ["red", "orange", "yellow", "green", "blue", "violet"];
 let nodesSearched = 0;
 let nodesInPath = 0;
 let pathLength = 0;
+let inst = false;
 
 function addToHeap(num) {
   heap.push(num);
@@ -131,10 +132,36 @@ function distance(node1, node2) {
   return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
 }
 
+const animationSpeedSlider = document.getElementById("animationSpeedSlider");
+let animationSpeed = mapSpeedValue(animationSpeedSlider.value);
+
+// Function to handle slider changes
+animationSpeedSlider.addEventListener("input", () => {
+  animationSpeed = mapSpeedValue(animationSpeedSlider.value);
+});
+
+function mapSpeedValue(sliderValue) {
+  // Map slider values: 1 (min) to 10 (max) => 10 (slowest) to 1 (fastest)
+  const minValue = 1;
+  const maxValue = 200;
+  const newMinValue = 200;
+  const newMaxValue = 1;
+  return (
+    ((newMaxValue - newMinValue) * (sliderValue - minValue)) /
+      (maxValue - minValue) +
+    newMinValue
+  );
+}
+
+function instant() {
+  inst = true;
+}
+
 async function findPath(lg, dijkstra) {
   document.getElementById("searchCounter").textContent = `Nodes Searched: ${0}`;
   document.getElementById("nodesInPath").textContent = `Nodes In Path: ${0}`;
   document.getElementById("pathLength").textContent = `Path Length: ${0}`;
+  inst = false;
   nodesInPath = 0;
   nodesSearched = 0;
   let closed = new Set();
@@ -154,7 +181,7 @@ async function findPath(lg, dijkstra) {
       "searchCounter"
     ).textContent = `Nodes Searched: ${nodesSearched}`; //increments the nodesSearched value
     if (current !== start && current !== goal) {
-      buttons[current].style.backgroundColor = "#ae20c7"; //orange
+      buttons[current].style.backgroundColor = "#ae20c7"; //purple
     }
     if (current == goal) {
       found = true;
@@ -170,7 +197,9 @@ async function findPath(lg, dijkstra) {
     while (node != null) {
       if (!closed.has(node.data)) {
         if (node.data !== start && node.data !== goal) {
-          await new Promise((resolve) => setTimeout(resolve, 3));
+          if (!inst) {
+            await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+          }
           buttons[node.data].style.backgroundColor = "#19e3cb"; //teal
         }
         if (!contains(node.data)) {
@@ -212,8 +241,7 @@ async function findPath(lg, dijkstra) {
   pathList.push(p);
   let path = [];
   let index = pathList.length - 1;
-  console.log(g);
-  for (let i = 0; i < pathList.length - 1; i++) {
+  for (let i = 0; i < pathList.length; i++) {
     document.getElementById("nodesInPath").textContent = `Nodes In Path: ${i}`;
     path[i] = pathList[index--];
     document.getElementById("pathLength").textContent = `Path Length: ${g[
@@ -221,7 +249,9 @@ async function findPath(lg, dijkstra) {
     ].toFixed(2)}`;
     if (path[i] !== start && path[i] !== goal) {
       buttons[path[i]].style.backgroundColor = "orange";
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      if (!inst) {
+        await new Promise((resolve) => setTimeout(resolve, animationSpeed));
+      }
       buttons[path[i]].style.backgroundColor = "blue";
     }
   }
