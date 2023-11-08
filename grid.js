@@ -32,6 +32,19 @@ function generateGrid() {
       cell.classList.add("cell");
       cell.style.backgroundColor = "#ccc";
       cell.id = row * gridSize + col;
+      let pixelsSmall = Math.floor(550 / gridSize) + 'px';
+      let pixelsMedium = Math.floor(1000 / gridSize) + 'px';
+      if (gridSize <= 30) {
+        cell.style.width = pixelsSmall;
+        cell.style.height = pixelsSmall;
+      } else if (gridSize > 30 && gridSize <= 60) {
+        cell.style.width = pixelsMedium;
+        cell.style.height = pixelsMedium;
+      } else {
+        cell.style.width = '15px';
+        cell.style.height = '15px';
+      }
+      
       cell.addEventListener("click", () => {
         if (isPlacingStartingButton) {
           if (startingButton) {

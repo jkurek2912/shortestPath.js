@@ -184,7 +184,7 @@ async function findPath(lg, dijkstra) {
           parent[node.data] = current;
         } else {
           let g2 = g[current] + distance(node.data, current);
-          if (g2 < g[node.data]) {
+          if (g2 <= g[node.data]) {
             removeFromHeap(node.data);
             g[node.data] = g2;
             tc[node.data] = g[node.data];
