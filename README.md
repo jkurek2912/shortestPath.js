@@ -19,7 +19,7 @@ use a priority queue. When a node has been popped from the queue, it will turn p
 cost will be the next node popped from the queue. The algorithm will finish by drawing a blue line between the start and goal node. This blue line is the shortest path.
 Clicking the button labeled Clear Grid will clear all the boxes, reseting them to their default gray color. If you want to run the same grid again, you can click the reset 
 button, which will save the location of any walls you added, as well as the location of the starting node and the goal node. The animation speed slider changes the speed the
-animation runs at. Clicking the instant button will finish the animation instantly. 
+animation runs at. Clicking the finish button will finish the animation instantly. 
 
 
 

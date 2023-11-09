@@ -11,7 +11,7 @@
     <input type="number" id="gridSize" />
     <label for="percentage">Fill Percent:</label>
     <input type="number" id="percent" />
-    <button onclick="generateGrid()">Generate Grid</button>
+    <button onclick="generateGrid()" id="generateGrid">Generate Grid</button>
   </div>
   <div>
     <input type="checkbox" id="placeStartingButton" />
@@ -28,8 +28,8 @@
     <button onclick="solveWithDijkstra()">Find with Dijkstra</button>
   </div>
     <label for="animationSpeedSlider">Animation Speed</label>
-    <input type="range" id="animationSpeedSlider" min="0" max="200" value="5">
-    <button onclick="instant()" id="instantButton">Instant</button>
+    <input type="range" id="animationSpeedSlider" min="0" max="100" value="5">
+    <button onclick="finish()" id="instantButton">Finish</button>
     <div id="searchCounter">Nodes Searched: 0</div>
     <div id="nodesInPath">Nodes In Path: 0</div>
     <div id="pathLength">Path Length: 0</div>

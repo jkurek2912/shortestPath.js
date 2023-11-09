@@ -13,7 +13,7 @@ let rainbow = ["red", "orange", "yellow", "green", "blue", "violet"];
 let nodesSearched = 0;
 let nodesInPath = 0;
 let pathLength = 0;
-let inst = false;
+let fin = false;
 
 function addToHeap(num) {
   heap.push(num);
@@ -143,8 +143,8 @@ animationSpeedSlider.addEventListener("input", () => {
 function mapSpeedValue(sliderValue) {
   // Map slider values: 1 (min) to 10 (max) => 10 (slowest) to 1 (fastest)
   const minValue = 1;
-  const maxValue = 200;
-  const newMinValue = 200;
+  const maxValue = 100;
+  const newMinValue = 100;
   const newMaxValue = 1;
   return (
     ((newMaxValue - newMinValue) * (sliderValue - minValue)) /
@@ -153,7 +153,7 @@ function mapSpeedValue(sliderValue) {
   );
 }
 
-function instant() {
+function finish() {
   inst = true;
 }
 
