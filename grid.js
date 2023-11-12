@@ -12,7 +12,11 @@ let buttons = [];
 let percent = 0;
 let dijkstra = false;
 
-
+/*
+  Function that generates an n x n grid. Includes handling for placing
+  start and goal nodes, draggin and clicking to make walls, and sizing 
+  the grid based on the amount of cells. Also builds the grid state array.
+*/
 
 function generateGrid() {
   clearGrid();
@@ -90,9 +94,14 @@ function generateGrid() {
           if (cell.style.backgroundColor == "black") {
             cell.style.backgroundColor = "#ccc";
             gridState[row][col] = 0;
+          } else if (cell.style.backgroundColor = "red") {
+            cell.style.backgroundColor = "black";
+            gridState[row][col] = 1;
+            startNodes = 0;
           } else {
             cell.style.backgroundColor = "black";
             gridState[row][col] = 1;
+            goalNodes = 0;
           }
         }
       });
@@ -131,9 +140,16 @@ function generateGrid() {
 
     }
   }
-}
+} /* generateGrid() */
+
+/*
+  Resets data structures. Removes start node, goal node, and all walls from the grid. 
+  Resets the gridState array.
+*/
 
 function clearGrid() {
+  startNodes = 0;
+  goalNodes = 0;
   resetDataStructures();
   const buttons = document.querySelectorAll(".cell");
   buttons.forEach((button) => {
@@ -147,6 +163,10 @@ function clearGrid() {
   }
 }
 
+/*
+ Resets data structures. Keeps walls and start / goal node in place.
+*/
+
 function reset() {
   resetDataStructures();
   const buttons = document.querySelectorAll(".cell");
@@ -157,19 +177,38 @@ function reset() {
   });
   buttons[start].style.backgroundColor = 'green';
   buttons[goal].style.backgroundColor = 'red';
-}
+} /* reset() */
+
+/*
+ Clears heap and resets labels
+*/
+
 function resetDataStructures() {
   resetLabels();
   heap = [];
-}
+} /* resetDataStructures() */
+
+/*
+  Passes true to generate grid function. If true, generateGrid() will fill the specified
+  percentage of cells with walls.
+*/
+
 function percentage() {
   generateGrid(true);
-}
+} /* percentage() */
+
+/*
+  Passes true to path finding function
+*/
 
 function solveWithDijkstra() {
   dijkstra = true;
   solveWithAstar(dijkstra);
-}
+} /* solveWithDijkstra() */
+
+/*
+  Calls the path finding function. Passes true for dijkstra and false for A*
+*/
 
 function solveWithAstar(dijkstra) {
   if (startNodes != 1 || goalNodes != 1) {
@@ -180,8 +219,12 @@ function solveWithAstar(dijkstra) {
     alert("Please clear the grid!");
     return;
   }
-  makeListGraph(gridSize, dijkstra);
-}
+  findPath(dijkstra);
+} /* solveWithAstar() */
+
+/*
+  Label and button checkers
+*/
 
 document
   .getElementById("placeStartingButton")

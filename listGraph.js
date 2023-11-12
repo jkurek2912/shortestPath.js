@@ -5,7 +5,6 @@ class ListNode {
   }
 }
 let heap = [];
-let lg = [];
 let g = [gridSize];
 let h = [gridSize];
 let tc = [gridSize];
@@ -14,6 +13,11 @@ let nodesSearched = 0;
 let nodesInPath = 0;
 let pathLength = 0;
 let fin = false;
+
+/*
+  Priority Queue functions. Implemented using a binary heap. The heap takes in a node
+  number and is sorted based on the total cost of the given node
+*/
 
 function addToHeap(num) {
   heap.push(num);
@@ -65,53 +69,41 @@ function contains(num) {
   return false;
 }
 
-function makeListGraph(size, dijkstra) {
-  if (startNodes != 1 || goalNodes != 1) {
-    //alert("Enter a starting node and a goal node!");
-    //return;
-  }
-  gridSize = size;
-  const neighbors = [];
-  for (let i = 0; i < gridSize; i++) {
-    for (let j = 0; j < gridSize; j++) {
-      if (gridState[i][j] != 1) {
-        if (inBounds(i - 1, j - 1) && gridState[i - 1][j - 1] != 1) {
-          neighbors.push((i - 1) * gridSize + j - 1);
-        }
-        if (inBounds(i - 1, j) && gridState[i - 1][j] != 1) {
-          neighbors.push((i - 1) * gridSize + j);
-        }
-        if (inBounds(i - 1, j + 1) && gridState[i - 1][j + 1] != 1) {
-          neighbors.push((i - 1) * gridSize + j + 1);
-        }
-        if (inBounds(i, j - 1) && gridState[i][j - 1] != 1) {
-          neighbors.push(i * gridSize + j - 1);
-        }
-        if (inBounds(i, j + 1) && gridState[i][j + 1] != 1) {
-          neighbors.push(i * gridSize + j + 1);
-        }
-        if (inBounds(i + 1, j - 1) && gridState[i + 1][j - 1] != 1) {
-          neighbors.push((i + 1) * gridSize + j - 1);
-        }
-        if (inBounds(i + 1, j) && gridState[i + 1][j] != 1) {
-          neighbors.push((i + 1) * gridSize + j);
-        }
-        if (inBounds(i + 1, j + 1) && gridState[i + 1][j + 1] != 1) {
-          neighbors.push((i + 1) * gridSize + j + 1);
-        }
-        let head = null; // Initialize head as null
+/*
+  Creates an array of neighors for the given node
+*/
 
-        while (neighbors.length != 0) {
-          const node = new ListNode(neighbors.pop());
-          node.next = head;
-          head = node;
-        }
-        lg[i * gridSize + j] = head;
-      }
-    }
+function findNeighbors(node) {
+  let x = coordinate(node);
+  let i = x[0];
+  let j = x[1];
+  let neighbors = [];
+  if (inBounds(i - 1, j - 1) && gridState[i - 1][j - 1] != 1) {
+    neighbors.push((i - 1) * gridSize + j - 1);
   }
-  findPath(lg, dijkstra);
-}
+  if (inBounds(i - 1, j) && gridState[i - 1][j] != 1) {
+    neighbors.push((i - 1) * gridSize + j);
+  }
+  if (inBounds(i - 1, j + 1) && gridState[i - 1][j + 1] != 1) {
+    neighbors.push((i - 1) * gridSize + j + 1);
+  }
+  if (inBounds(i, j - 1) && gridState[i][j - 1] != 1) {
+    neighbors.push(i * gridSize + j - 1);
+  }
+  if (inBounds(i, j + 1) && gridState[i][j + 1] != 1) {
+    neighbors.push(i * gridSize + j + 1);
+  }
+  if (inBounds(i + 1, j - 1) && gridState[i + 1][j - 1] != 1) {
+    neighbors.push((i + 1) * gridSize + j - 1);
+  }
+  if (inBounds(i + 1, j) && gridState[i + 1][j] != 1) {
+    neighbors.push((i + 1) * gridSize + j);
+  }
+  if (inBounds(i + 1, j + 1) && gridState[i + 1][j + 1] != 1) {
+    neighbors.push((i + 1) * gridSize + j + 1);
+  }
+  return neighbors;
+} /* findNeighbors() */
 
 function inBounds(i, j) {
   if (i < 0 || j < 0 || i > gridSize - 1 || j > gridSize - 1) return false;
@@ -157,7 +149,14 @@ function finish() {
   inst = true;
 }
 
-async function findPath(lg, dijkstra) {
+/*
+  Finds the path between the starting and goal node. If Dijstra is true, it will use Dijktra's shortest path 
+  algorithm A* otherwise. The first part of the functions populates a parent array with a path from the start
+  to the goal node. The second part loops through a list that represents the path and turns the nodes part of 
+  the path blue.
+*/
+
+async function findPath(dijkstra) {
   document.getElementById("searchCounter").textContent = `Nodes Searched: ${0}`;
   document.getElementById("nodesInPath").textContent = `Nodes In Path: ${0}`;
   document.getElementById("pathLength").textContent = `Path Length: ${0}`;
@@ -193,40 +192,40 @@ async function findPath(lg, dijkstra) {
     if (!dijkstra) {
       tc[current] += h[current];
     }
-    let node = lg[current];
-    while (node != null) {
-      if (!closed.has(node.data)) {
-        if (node.data !== start && node.data !== goal) {
+    let node = findNeighbors(current);
+    for (let i = 0; i < node.length; i++) {
+      if (!closed.has(node[i])) {
+        if (node[i] !== start && node[i] !== goal) {
           if (!inst) {
             await new Promise((resolve) => setTimeout(resolve, animationSpeed));
           }
-          buttons[node.data].style.backgroundColor = "#19e3cb"; //teal
+          buttons[node[i]].style.backgroundColor = "#19e3cb "; //teal
         }
-        if (!contains(node.data)) {
-          g[node.data] = g[current] + distance(node.data, current);
-          h[node.data] = distance(node.data, goal);
-          tc[node.data] = g[node.data];
+        if (!contains(node[i])) {
+          g[node[i]] = g[current] + distance(node[i], current);
+          h[node[i]] = distance(node[i], goal);
+          tc[node[i]] = g[node[i]];
           if (!dijkstra) {
-            tc[node.data] += h[node.data];
+            tc[node[i]] += h[node[i]];
           }
-          addToHeap(node.data);
-          parent[node.data] = current;
+          addToHeap(node[i]);
+          parent[node[i]] = current;
         } else {
-          let g2 = g[current] + distance(node.data, current);
-          if (g2 <= g[node.data]) {
-            removeFromHeap(node.data);
-            g[node.data] = g2;
-            tc[node.data] = g[node.data];
+          let g2 = g[current] + distance(node[i], current);
+          if (g2 <= g[node[i]]) {
+            removeFromHeap(node[i]);
+            g[node[i]] = g2;
+            tc[node[i]] = g[node[i]];
             if (!dijkstra) {
-              tc[node.data] += h[node.data];
+              tc[node[i]] += h[node[i]];
             }
 
-            addToHeap(node.data);
-            parent[node.data] = current;
+            addToHeap(node[i]);
+            parent[node[i]] = current;
           }
         }
       }
-      node = node.next;
+      //node = node.next;
     }
   }
   heap.push(-1); // adds a dummy node to the heap to fix the edge case where the entire heap gets popped before finding the goal.
@@ -255,4 +254,4 @@ async function findPath(lg, dijkstra) {
       buttons[path[i]].style.backgroundColor = "blue";
     }
   }
-}
+} /* findPath() */
