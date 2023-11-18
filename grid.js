@@ -29,7 +29,9 @@ function generateGrid() {
   }
   if (gridSize > 120) {
     gridSize = 0;
-    alert("Large grid sizes could cause crashes. Please choose a grid size under");
+    alert(
+      "Large grid sizes could cause crashes. Please choose a grid size under"
+    );
     return;
   }
   if (gridSize < 1) {
@@ -52,8 +54,8 @@ function generateGrid() {
       cell.classList.add("cell");
       cell.style.backgroundColor = "#ccc";
       cell.id = row * gridSize + col;
-      let pixelsSmall = Math.floor(550 / gridSize) + 'px';
-      let pixelsMedium = Math.floor(1000 / gridSize) + 'px';
+      let pixelsSmall = Math.floor(550 / gridSize) + "px";
+      let pixelsMedium = Math.floor(1000 / gridSize) + "px";
       if (gridSize <= 30) {
         cell.style.width = pixelsSmall;
         cell.style.height = pixelsSmall;
@@ -61,10 +63,10 @@ function generateGrid() {
         cell.style.width = pixelsMedium;
         cell.style.height = pixelsMedium;
       } else {
-        cell.style.width = '15px';
-        cell.style.height = '15px';
+        cell.style.width = "15px";
+        cell.style.height = "15px";
       }
-      
+
       cell.addEventListener("click", () => {
         if (isPlacingStartingButton) {
           if (startingButton) {
@@ -91,17 +93,17 @@ function generateGrid() {
           gridState[row][col] = 3;
           goalNodes = 1;
         } else {
-          if (cell.style.backgroundColor == "black") {
-            cell.style.backgroundColor = "#ccc";
-            gridState[row][col] = 0;
-          } else if (cell.style.backgroundColor = "red") {
-            cell.style.backgroundColor = "black";
-            gridState[row][col] = 1;
-            startNodes = 0;
-          } else {
-            cell.style.backgroundColor = "black";
-            gridState[row][col] = 1;
-            goalNodes = 0;
+          if (
+            cell.style.backgroundColor != "red" &&
+            cell.style.backgroundColor != "green"
+          ) {
+            if (cell.style.backgroundColor == "black") {
+              cell.style.backgroundColor = "#ccc";
+              gridState[row][col] = 0;
+            } else {
+              cell.style.backgroundColor = "black";
+              gridState[row][col] = 1;
+            }
           }
         }
       });
@@ -137,7 +139,6 @@ function generateGrid() {
       }
       buttons.push(cell);
       grid.appendChild(cell);
-
     }
   }
 } /* generateGrid() */
@@ -171,12 +172,18 @@ function reset() {
   resetDataStructures();
   const buttons = document.querySelectorAll(".cell");
   buttons.forEach((button) => {
-    if (!(button.style.backgroundColor == "black" || button.style.backgroundColor == 'green' || button.style.backgroundColor == 'red')) {
+    if (
+      !(
+        button.style.backgroundColor == "black" ||
+        button.style.backgroundColor == "green" ||
+        button.style.backgroundColor == "red"
+      )
+    ) {
       button.style.backgroundColor = "#ccc";
     }
   });
-  buttons[start].style.backgroundColor = 'green';
-  buttons[goal].style.backgroundColor = 'red';
+  buttons[start].style.backgroundColor = "green";
+  buttons[goal].style.backgroundColor = "red";
 } /* reset() */
 
 /*
@@ -261,14 +268,8 @@ document
     isPlacingGoalButton = event.target.checked;
   });
 
-  function resetLabels() {
-    document.getElementById(
-      "searchCounter"
-    ).textContent = `Nodes Searched: ${0}`;
-    document.getElementById(
-      "nodesInPath"
-    ).textContent = `Nodes In Path: ${0}`;
-    document.getElementById(
-      "pathLength"
-    ).textContent = `Path Length: ${0}`;
-  }
+function resetLabels() {
+  document.getElementById("searchCounter").textContent = `Nodes Searched: ${0}`;
+  document.getElementById("nodesInPath").textContent = `Nodes In Path: ${0}`;
+  document.getElementById("pathLength").textContent = `Path Length: ${0}`;
+}

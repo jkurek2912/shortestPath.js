@@ -79,13 +79,13 @@ function findNeighbors(node) {
   let j = x[1];
   let neighbors = [];
   if (inBounds(i - 1, j - 1) && gridState[i - 1][j - 1] != 1) {
-    neighbors.push((i - 1) * gridSize + j - 1);
+  //  neighbors.push((i - 1) * gridSize + j - 1);
   }
   if (inBounds(i - 1, j) && gridState[i - 1][j] != 1) {
     neighbors.push((i - 1) * gridSize + j);
   }
   if (inBounds(i - 1, j + 1) && gridState[i - 1][j + 1] != 1) {
-    neighbors.push((i - 1) * gridSize + j + 1);
+    //neighbors.push((i - 1) * gridSize + j + 1);
   }
   if (inBounds(i, j - 1) && gridState[i][j - 1] != 1) {
     neighbors.push(i * gridSize + j - 1);
@@ -94,13 +94,13 @@ function findNeighbors(node) {
     neighbors.push(i * gridSize + j + 1);
   }
   if (inBounds(i + 1, j - 1) && gridState[i + 1][j - 1] != 1) {
-    neighbors.push((i + 1) * gridSize + j - 1);
+   // neighbors.push((i + 1) * gridSize + j - 1);
   }
   if (inBounds(i + 1, j) && gridState[i + 1][j] != 1) {
     neighbors.push((i + 1) * gridSize + j);
   }
   if (inBounds(i + 1, j + 1) && gridState[i + 1][j + 1] != 1) {
-    neighbors.push((i + 1) * gridSize + j + 1);
+  //  neighbors.push((i + 1) * gridSize + j + 1);
   }
   return neighbors;
 } /* findNeighbors() */
